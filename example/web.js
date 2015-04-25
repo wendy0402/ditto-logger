@@ -8,7 +8,10 @@ var bodyParser = require('body-parser');
 app.use(logger);
 
 app.get('/', function(req, res){
-  res.end('foo bar');
+  setTimeout(function(){
+    res.end('foo bar');
+  }, 3000);
+  
 });
 
 app.post('/post', function(req, res){

@@ -4,16 +4,12 @@ var url = require('url');
 var httpStatus = require('http-status');
 
 module.exports =  exports = function(req, res, next){
-
-  onFinished(req, function(err, req){
+  process.stdout.write(createReqFormat(req));
+  onFinished(res, function(err, res){
     if(err){
       process.stdout.write(err);
       return
     }
-    process.stdout.write(createReqFormat(req));
-  });
-
-  res.on('finish', function(){
     process.stdout.write(createResFormat(res));
   });
   next();
@@ -25,7 +21,7 @@ function createReqFormat(req) {
 }
 
 function createResFormat(res) {
-  return compileResponse("Completed %statusCode %statusMessage", res);
+  return compileResponse("\nCompleted %statusCode %statusMessage", res);
 }
 
 function compileRequest(format, req){
