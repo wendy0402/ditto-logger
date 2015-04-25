@@ -1,15 +1,11 @@
 var strftime = require('strftime');
-var onFinished = require('on-finished');
 var url = require('url');
 var httpStatus = require('http-status');
 
 module.exports =  exports = function(req, res, next){
   process.stdout.write(createReqFormat(req));
-  onFinished(res, function(err, res){
-    if(err){
-      process.stdout.write(err);
-      return
-    }
+
+  res.on('finish', function(){
     process.stdout.write(createResFormat(res));
   });
   next();

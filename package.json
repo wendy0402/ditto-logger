@@ -20,7 +20,6 @@
     "express": "^4.12.3",
     "http-status": "^0.1.8",
     "jasmine-node": "^1.14.5",
-    "on-finished": "^2.2.1",
     "strftime": "^0.9.0",
     "url": "^0.10.3"
   }
