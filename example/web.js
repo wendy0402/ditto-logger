@@ -2,8 +2,6 @@ var express = require('express');
 var app = express();
 var logger = require('../index.js');
 var url = require('url');
-var bodyParser = require('body-parser');
-
 
 app.use(logger);
 
