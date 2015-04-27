@@ -1,19 +1,33 @@
-var strftime = require('strftime');
 var url = require('url');
 var httpStatus = require('http-status');
+var formidable = require('formidable');
+var util = require('util');
 
-module.exports =  exports = function(req, res, next){
+module.exports = exports = function(req, res, next){
+
   process.stdout.write(createReqFormat(req));
 
   res.on('finish', function(){
     process.stdout.write(createResFormat(res));
   });
-  next();
+
+  if(req.method !== 'GET') {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files){
+      if(err) return next(err);
+      process.stdout.write('\n Parameters:' + util.inspect(fields));
+      next();
+    });
+  } else {
+    var urlParsed = url.parse(req.url, true)
+    process.stdout.write('\n Parameters:' + util.inspect(urlParsed.query));
+    next();
+  }
 };
 
 
 function createReqFormat(req) {
-  return compileRequest("\nStarted %pathName for %ipAddr at %time", req);
+  return compileRequest("\nStarted %method %pathName for %ipAddr at %time", req);
 }
 
 function createResFormat(res) {
@@ -37,6 +51,12 @@ function compileResponse(format, res){
 
 exports.codeReqList = {}
 exports.codeResList = {}
+
+
+exports.codeReqList.method = function (req){
+  return req.method;
+}
+
 
 exports.codeReqList.pathName = function (req){
   return url.parse(req.url).pathname;
