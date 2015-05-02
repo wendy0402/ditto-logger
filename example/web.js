@@ -1,15 +1,11 @@
 var express = require('express');
 var app = express();
 var logger = require('../index.js');
-var url = require('url');
 
 app.use(logger);
 
 app.get('/', function(req, res){
-  setTimeout(function(){
-    res.end('foo bar');
-  }, 3000);
-  
+  res.end('foo bar');
 });
 
 app.post('/post', function(req, res){
