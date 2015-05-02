@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var logger = require('../index.js');
 
-app.use(logger);
+app.use(logger({stream: __dirname + '/dev.log'}));
 
 app.get('/', function(req, res){
   res.end('foo bar');

@@ -2,28 +2,34 @@ var url = require('url');
 var httpStatus = require('http-status');
 var formidable = require('formidable');
 var util = require('util');
+var fs = require('fs')
 
-module.exports = exports = function(req, res, next){
+module.exports = exports = function(options){
+  options = options || {}
+  stream =  (options.stream !== undefined && fs.createWriteStream(options.stream, {flags: 'a'})) || process.stdout
 
-  process.stdout.write(createReqFormat(req));
-
-  res.on('finish', function(){
-    process.stdout.write(createResFormat(res));
-  });
-
-  if(req.method !== 'GET') {
-    var form = new formidable.IncomingForm();
-    form.parse(req, function(err, fields, files){
-      if(err) return next(err);
-      process.stdout.write('\n Parameters:' + util.inspect(fields));
-      next();
+  var logger = function(req, res, next){
+    stream.write(createReqFormat(req));
+    res.on('finish', function(){
+      stream.write(createResFormat(res));
     });
-  } else {
-    var urlParsed = url.parse(req.url, true)
-    process.stdout.write('\n Parameters:' + util.inspect(urlParsed.query));
-    next();
-  }
-};
+
+    if(req.method !== 'GET') {
+      var form = new formidable.IncomingForm();
+      form.parse(req, function(err, fields, files){
+        if(err) return next(err);
+        stream.write('\n Parameters:' + util.inspect(fields));
+        next();
+      });
+    } else {
+      var urlParsed = url.parse(req.url, true)
+      stream.write('\n Parameters:' + util.inspect(urlParsed.query));
+      next();
+    }
+  };
+
+  return logger;
+}
 
 
 function createReqFormat(req) {

@@ -1,18 +1,24 @@
 # ditto-logger
-Simple middleware logger inspired by `rails` & `morgan`. Because rails log is simple yet quite informative.
+Simple middleware logger inspired by `rails` & `morgan`. Because rails log is simple yet quite informative and morgan can not shown url parameter.
 
-# API
+# Usage
 ---
  ```js
- var ditto = require('ditto-logger')
+ var logger = require('ditto-logger');
  ```
+
+For now ditto-logger only accept stream options to define location to log(default is process.stdout)
+
+```
+logger({ stream: '../log/dev.log'});
+```
 
 # Examples
 ----
   ```js
   var express = require('express');
   var app = express();
-  var logger = require('../index.js');
+  var logger = require('ditto-logger');
 
   app.use(logger);
 
