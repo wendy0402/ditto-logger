@@ -1,11 +1,9 @@
 {
   "name": "ditto-logger",
   "version": "0.1.0",
-  "description": "Logger middleware inspired by rails",
+  "description": "Simple Logger middleware inspired by rails",
   "main": "index.js",
-  "scripts": {
-    "test": "jasmine-node spec/"
-  },
+  "scripts": {},
   "keywords": [
     "logger",
     "middleware",
@@ -14,12 +12,15 @@
     "like-rails"
   ],
   "author": "wendy0402",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wendy0402/ditto-logger"
+  },
   "license": "ISC",
   "dependencies": {
     "express": "^4.12.3",
     "formidable": "^1.0.17",
     "http-status": "^0.1.8",
-    "jasmine-node": "^1.14.5",
     "url": "^0.10.3"
   }
 }
